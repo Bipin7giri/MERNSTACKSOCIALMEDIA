@@ -3,12 +3,40 @@ import { useSelector } from 'react-redux';
 import { authAction } from '../app/slice/authSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
+import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
 const Login = () => {
   const [details, setDetails] = useState({
     gmail: '',
     password: '',
   });
+  function validatePassword(value) {
+    let error;
+    if (!value) {
+      error = 'Required';
+      return error;
+    } else if (value.length <= 7) {
+      error = 'Password must be greater or equal than 8 ';
+      console.log(error);
+
+      return error;
+    } else {
+      setDetails({ ...details, password: value });
+    }
+  }
+  function validateEmail(value) {
+    let error;
+    if (!value) {
+      error = 'Required';
+      return error;
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      error = 'Invalid email address';
+      return error;
+    } else {
+      setDetails({ ...details, gmail: value });
+    }
+  }
+
   const navigate = useNavigate();
   const [loginStatus, setLoginStatus] = useState(null);
   const [validate, setValidate] = useState();
@@ -43,13 +71,55 @@ const Login = () => {
           alt=''
         />
         <p class='text-3xl mx-8'>
-          Facebook helps you connect and share with the people in your life.
+          SOCIAL MEDIA helps you connect and share with the people in your life.
         </p>
       </div>
 
       <div class='right flex flex-col bg-white p-8 rounded-xl w-1/4 text-lg relative'>
         <h1 className='text-red-400'>{validate}</h1>
-        <input
+        <Formik
+          initialValues={{
+            email: '',
+            password: '',
+          }}
+          onSubmit={(values) => {
+            // same shape as initial values
+            console.log(values);
+            sendToDb();
+          }}
+        >
+          {({ errors, touched, isValidating }) => (
+            <Form>
+              <Field
+                name='email'
+                validate={validateEmail}
+                class='px-4 h-12 my-2 border border-1 outline-blue-600 border-gray-200 rounded-lg'
+                type='text'
+                placeholder='Email address or phone number'
+              />
+              {errors.email && touched.email && <div>{errors.email}</div>}
+
+              <Field
+                name='password'
+                validate={validatePassword}
+                class='px-4 h-12 my-2 border border-1 outline-blue-600 border-gray-200 rounded-lg'
+                type='password'
+                placeholder='Password'
+              />
+              {errors.password && touched.password && (
+                <div>{errors.password}</div>
+              )}
+
+              <button
+                type='submit'
+                class='bg-blue-600 hover:bg-blue-700 text-white my-2 py-3 rounded-md font-bold'
+              >
+                Submit
+              </button>
+            </Form>
+          )}
+        </Formik>
+        {/* <input
           onKeyUp={(e) => setDetails({ ...details, gmail: e.target.value })}
           class='px-4 h-12 my-2 border border-1 outline-blue-600 border-gray-200 rounded-lg'
           type='text'
@@ -69,7 +139,7 @@ const Login = () => {
           class='bg-blue-600 hover:bg-blue-700 text-white my-2 py-3 rounded-md font-bold'
         >
           Log In
-        </button>
+        </button> */}
         <span class='text-blue-600 text-center text-sm my-2 cursor-pointer hover:underline'>
           Forgotten password?
         </span>
