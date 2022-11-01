@@ -8,13 +8,24 @@ import Register from './components/Register';
 import Test from './components/messenger/Test';
 import 'antd/dist/antd.css';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { userAction } from './app/slice/userSlice';
 
 const App = () => {
+  const navigate = useNavigate();
+  const { isAtuhenticated } = useSelector((state) => state.auth);
+  console.log(isAtuhenticated);
+  useEffect(() => {
+    if (!isAtuhenticated) {
+      console.log('hi');
+      navigate('/login');
+    }
+  }, []);
   return (
     <div className='App'>
       {/* <Home /> */}
+
       <Routes>
         <Route
           path='/'
