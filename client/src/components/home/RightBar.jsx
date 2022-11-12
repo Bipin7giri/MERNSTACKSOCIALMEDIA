@@ -9,12 +9,12 @@ import { useState } from 'react';
 function RightBar() {
   const [getUser, setUsers] = useState([]);
   const postFromRedux = useSelector((state) => state.post.post);
-  const trending = postFromRedux.map((item, index) => {
+  const trending = postFromRedux?.map((item, index) => {
     return item.tags;
   });
 
   const tempObjForTrending = {};
-  trending.forEach((item, id) => {
+  trending?.forEach((item, id) => {
     tempObjForTrending[item] =
       tempObjForTrending[item] === undefined ? 1 : tempObjForTrending[item] + 1;
   });
@@ -76,7 +76,8 @@ function RightBar() {
               <content class='grid grid-cols-6'>
                 <div class=''>
                   <img
-                    src={require('../../assets/images/' + item.image)}
+                    // src={require(`../../assets/images/${item.image}`)}
+                    src={item.image}
                     class='h-8 w-8 rounded-full'
                   />
                 </div>

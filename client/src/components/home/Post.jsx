@@ -80,7 +80,7 @@ const Post = () => {
   const mode = useSelector((state) => state.mode.isMode);
   return (
     <div>
-      {filtered.map((item, index) => {
+      {filtered?.map((item, index) => {
         return (
           // <li>{JSON.stringify(item)}</li>
           <div
@@ -96,7 +96,7 @@ const Post = () => {
                   <img
                     class='w-12 h-12 object-cover rounded-full shadow cursor-pointer'
                     alt='User avatar'
-                    src={require('../../assets/images/' + item.user.image)}
+                    src={item.user.image}
                   />
                 </div>
                 <div class='flex flex-col mb-2 ml-4 mt-1'>
@@ -142,7 +142,8 @@ const Post = () => {
                 // src={
                 //   'file:///F:/socialMedia/server/images/fadf6ce5-c953-491f-8d64-fee83b36241e-1666154987998.JPG'
                 // }
-                src={require('../../assets/images/' + item.image)}
+
+                src={item.image}
               />
             </div>
             <div

@@ -89,7 +89,7 @@ const Login = () => {
           }}
         >
           {({ errors, touched, isValidating }) => (
-            <Form>
+            <Form className='flex flex-col'>
               <Field
                 name='email'
                 validate={validateEmail}
@@ -119,27 +119,7 @@ const Login = () => {
             </Form>
           )}
         </Formik>
-        {/* <input
-          onKeyUp={(e) => setDetails({ ...details, gmail: e.target.value })}
-          class='px-4 h-12 my-2 border border-1 outline-blue-600 border-gray-200 rounded-lg'
-          type='text'
-          placeholder='Email address or phone number'
-        />
-        <input
-          onKeyUp={(e) => setDetails({ ...details, password: e.target.value })}
-          class='px-4 h-12 my-2 border border-1 outline-blue-600 border-gray-200 rounded-lg'
-          type='password'
-          placeholder='Password'
-        />
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            sendToDb();
-          }}
-          class='bg-blue-600 hover:bg-blue-700 text-white my-2 py-3 rounded-md font-bold'
-        >
-          Log In
-        </button> */}
+
         <span class='text-blue-600 text-center text-sm my-2 cursor-pointer hover:underline'>
           Forgotten password?
         </span>

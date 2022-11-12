@@ -18,7 +18,6 @@ const Profile = () => {
   useEffect(() => {
     axios.get(`http://127.0.0.1:3000/auth/users/${gmail}`).then((response) => {
       dispatch(userAction.saveUser(response.data));
-
       setAuthId(response.data);
     });
   }, []);
@@ -56,7 +55,7 @@ const Profile = () => {
                 <>
                   <img
                     class='h-32 w-32 bg-white p-2 rounded-full shadow mb-4'
-                    src={require('../../assets/images/' + item.image)}
+                    src={item.image === undefined ? '' : item.image}
                   />
                 </>
               );
@@ -160,7 +159,7 @@ const Profile = () => {
                       <img
                         class='w-12 h-12 object-cover rounded-full shadow cursor-pointer'
                         alt='User avatar'
-                        src={require('../../assets/images/' + item.user.image)}
+                        src={item.user.image}
                       />
                     </div>
                     <div class='flex flex-col mb-2 ml-4 mt-1'>
@@ -205,7 +204,7 @@ const Profile = () => {
                       // src={
                       //   'file:///F:/socialMedia/server/images/fadf6ce5-c953-491f-8d64-fee83b36241e-1666154987998.JPG'
                       // }
-                      src={require('../../assets/images/' + item.image)}
+                      src={item.image === undefined ? '' : item.image}
                     />
                   </div>
                   <div

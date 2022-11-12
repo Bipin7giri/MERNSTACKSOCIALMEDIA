@@ -33,8 +33,8 @@ const AddPost = () => {
       .then((response) => {
         console.log(response);
         dispatch(postAction.updateNewsFeed());
-        message.info(response.data);
       });
+    message.info('added to db');
   };
 
   return (

@@ -15,17 +15,14 @@ import { userAction } from './app/slice/userSlice';
 const App = () => {
   const navigate = useNavigate();
   const { isAtuhenticated } = useSelector((state) => state.auth);
-  console.log(isAtuhenticated);
+
   useEffect(() => {
     if (!isAtuhenticated) {
-      console.log('hi');
       navigate('/login');
     }
   }, []);
   return (
     <div className='App'>
-      {/* <Home /> */}
-
       <Routes>
         <Route
           path='/'
@@ -44,10 +41,10 @@ const App = () => {
           path='/profile/:gmail'
           element={<Profile />}
         />
-        <Route
+        {/* <Route
           path='/messenger'
           element={<Test />}
-        />
+        /> */}
       </Routes>
     </div>
   );
