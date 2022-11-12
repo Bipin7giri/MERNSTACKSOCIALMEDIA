@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary');
 
 const loginModel = require('../models/UserModel');
 const bcrypt = require('bcrypt');
@@ -13,21 +14,28 @@ const register = async (req, res) => {
       status: 'Already Exist',
     });
   }
+  await cloudinary.uploader
+    .upload(req.file.path, (result) => {
+      // This will return the output after the code is exercuted both in the terminal and web browser
+      // When successful, the output will consist of the metadata of the uploaded file one after the other. These include the name, type, size and many more.
+      console.log(result);
+    })
+    .then(async (result) => {
+      const user = new loginModel(body);
+      user.image = result.secure_url;
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
+      await user.save();
+      res.json({
+        status: 201,
+      });
+    });
 
-  const user = new loginModel(body);
-  user.image = req.file.filename;
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
-  await user.save();
-  res.json({
-    status: 201,
-  });
   // res.send('success');
 };
 const getAllUsers = async (req, res) => {
-  console.log(req.params.email);
   const authEmail = req.params.email;
-  console.log(authEmail);
+
   const getAuthUser = await loginModel
     .find({
       gmail: authEmail.replaceAll('"', ''),
@@ -103,7 +111,6 @@ const getFollowing = async (req, res) => {
   const allUsers = await loginModel.find({
     gmail: { $ne: withoutQuotesEmail },
   });
-  console.log(allUsers);
 
   if (allUsers) {
     res.send(allUsers);
@@ -115,8 +122,6 @@ const showIfNotFollowed = async (req, res) => {
   const { Following } = await loginModel.findOne({
     gmail: withoutQuotesEmail,
   });
-  console.log(Following);
-
   if ({ Following }) {
     res.json({
       following: Following,

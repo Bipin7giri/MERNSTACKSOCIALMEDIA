@@ -6,6 +6,12 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 let cors = require('cors');
 app.use(cors());
+const cloudinary = require('cloudinary');
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
 
 const port = 3000;
 const bodyParser = require('body-parser');
@@ -38,7 +44,7 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 const mongoose = require('mongoose');
-const uri = 'mongodb://localhost:27017/socialmedia';
+const uri = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@cluster0.2d9ffmd.mongodb.net/socialmedia`;
 const connect = async () => {
   try {
     mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
