@@ -8,9 +8,9 @@ let cors = require('cors');
 app.use(cors());
 const cloudinary = require('cloudinary');
 cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.API_KEY,
-  api_secret: process.env.API_SECRET,
+  cloud_name: 'dr54a7gze',
+  api_key: '868275163814591',
+  api_secret: 'U0-E-H34SF1Dl1vpyroUU361AUQ',
 });
 
 const port = 3000;
